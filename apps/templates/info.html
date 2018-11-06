@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block body_text %}
+    <div class="container">
+        <div class="col-xs-6 col-xs-offset-3">
+            <div class="page-header">
+                <h3 class="text-center">个人中心</h3>
+            </div>
+            <p style="line-height: 2.5em; font-size: 1.2em; text-indent: 2em;">
+                掌握python常用的逻辑结构；熟悉序列和字典的增删改查操作；掌握列表和字典的遍历方法；掌握列表和字典的应用场景; 熟悉列表和字典的生成器表示方式;
+            </p>
+            <div class="text-right">
+            <span>
+                <a href="{{ url_for('cms.index') }}" class="btn btn-info">回退首页</a>
+            </span>
+                <span>
+                <a href="{{ url_for('cms.logout') }}" class="btn btn-primary">安全退出</a>
+            </span>
+            </div>
+        </div>
+    </div>
+{% endblock %}

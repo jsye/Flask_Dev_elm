@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block body_text %}
+    <div class="container">
+        <div class="col-xs-6 col-xs-offset-3">
+            <div class="page-header">
+                <h3 class="text-center">用户注册</h3>
+            </div>
+
+            <form class="form-horizontal" action="{{ url_for('cms.reg') }}" method="post">
+                {% for item in froms %}
+                    <div class="form-group">
+                        {{ item }}
+                    </div>
+                    {{ item.errors[0] }}
+                {% endfor %}
+                <div class="text-right">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success">注册</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock body_text %}

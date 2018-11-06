@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block body_text %}
+<div class="container">
+    <div class="col-xs-6 col-xs-offset-3">
+        <div class="page-header">
+            <h3 class="text-center">待办事项列表</h3>
+        </div>
+        <div class="list-group">
+            <a class="list-group-item" href="{{ url_for('cms.detail') }}">学习python列表和字典</a>
+            <a class="list-group-item" href="{{ url_for('cms.index') }}">学习python装饰器和生成器</a>
+            <a class="list-group-item" href="{{ url_for('cms.index') }}">学习python列表和字典</a>
+        </div>
+    </div>
+</div>
+{% endblock body_text %}

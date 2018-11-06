@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block body_text %}
+    <div class="container">
+        <div class="col-xs-6 col-xs-offset-3">
+            <div class="page-header">
+                <h3 class="text-center">用户登录</h3>
+            </div>
+
+            <form class="form-horizontal" action="{{ url_for('cms.login') }}" method="post">
+                {% for item in forms %}
+                    <div class="form-group">
+                            {{ item }}
+                    </div>
+                    {{ item.errors[0] }}
+                {% endfor %}
+
+
+                <div class="text-right">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success">登录</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock body_text %}
