@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block meta_title %}
+    商家{{ flags }}
+{% endblock %}
 {% block body_text %}
     <div class="container">
         <div class="col-xs-6 col-xs-offset-3">
@@ -6,15 +9,13 @@
                 <h3 class="text-center">商家{{ flags }}</h3>
             </div>
 
-            <form class="form-horizontal" action="{{ url_for('cms.login') }}" method="post">
+            <form class="form-horizontal" action="" method="post">
                 {% for item in forms %}
                     <div class="form-group">
-                            {{ item }}
+                        {{ item }}
                     </div>
                     {{ item.errors[0] }}
                 {% endfor %}
-
-
                 <div class="text-right">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-success">{{ flags }}</button>

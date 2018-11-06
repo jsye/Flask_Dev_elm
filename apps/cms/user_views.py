@@ -8,6 +8,8 @@ from flask import session
 # from sqlalchemy import and_, or_
 
 # 导入用户模块
+from sqlalchemy import and_
+
 from apps.cms import cms_bp     # 导入蓝图
 from apps.forms.user_forms import RegisterForm    # 导入注册验证表单模块
 from apps.forms.user_forms import LoginForm        # 导入登录验证表单模块
@@ -41,19 +43,19 @@ def user_reg_view():
     """
     # 优化后的代码
     # 先生成一个forms实例并进行验证
-    froms = RegisterForm(request.form)
-    if request.method == 'POST' and froms.validate():
+    forms = RegisterForm(request.form)
+    if request.method == 'POST' and forms.validate():
         # 实例化model
         data = UserModel()
         # 接收验证后的数据
-        data.name = froms.name.data
-        data.pwd = froms.pwd.data
+        data.name = forms.name.data
+        data.pwd = forms.pwd.data
         # 写入数据库
         db.session.add(data)
         db.session.commit()
         return redirect(url_for('cms.login'))
     else:
-        return render_template('regs.html', froms=froms)
+        return render_template('reg_login.html', forms=forms, flags = '注册')
 
 
 # 用户登录
@@ -96,20 +98,33 @@ def user_login_view():
         if cookie:
             return redirect(url_for('cms.info'))
         else:
-            return render_template('logins.html', forms=forms)
+            return render_template('reg_login.html', forms=forms, flags = '登录')
     elif request.method == 'POST' and forms.validate():
+        user = forms.name.data
+        pwd = forms.pwd.data
+        res = db.session.query(UserModel).filter(and_(UserModel.name == user, UserModel.pwd == pwd)).first()
+        if res:
+            response: Response = redirect(url_for('cms.info'))
+            response.set_cookie('name', forms.name.data, max_age=3600)
+            response.set_cookie('id', str(res.id))
+            return response
+        else:
+            # 验证不成功，则在errors 中添加错误信息，请forms带到前端去
+            forms.pwd.errors = ['用户名或密码错误！']
+            return render_template('reg_login.html', forms=forms, flags='登录')
         """
         # 验证成功设置cookie
         response:Response = make_response(redirect(url_for('cms.info')))
         response.set_cookie('name', forms.name.data, max_age=3600)   
         return response
         """
-        #使用session
+        """
+        #验证成功使用session
         session['name'] = 'name'
         return redirect(url_for('cms.info'))
-
+        """
     else:
-        return render_template('logins.html', forms=forms)
+        return render_template('reg_login.html', forms=forms, flags='登录')
 
 # 个人中心
 @cms_bp.route('/info', endpoint='info')
